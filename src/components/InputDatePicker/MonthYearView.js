@@ -1,17 +1,18 @@
 import ViewLayout from "./ViewLayout";
-import DatePicker from "./DatePicker";
+import MonthPicker from "./MonthPicker";
 import HeaderTitle from "./HeaderTitle";
 
-function DateView(props) {
+function MonthYearView(props) {
   const {
     calendar,
-    onSelectMonthYear,
+    onSelectMonth,
     onTitleClick,
-    selectedDate,
+    onSelectMonthYear,
     onSelectDate,
     setShowPicker,
   } = props;
-  const { year, monthIndex } = calendar;
+  const { monthIndex, year } = calendar;
+
   return (
     <ViewLayout
       header={
@@ -23,15 +24,16 @@ function DateView(props) {
         />
       }
       bodyElement={
-        <DatePicker
-          calendar={calendar}
-          selectedDate={selectedDate}
-          onSelectDate={onSelectDate}
-        />
+        <MonthPicker selectedMonthIndex={monthIndex} onSelect={onSelectMonth} />
       }
-      foorerElement={{ onSelectDate, onSelectMonthYear, setShowPicker }}
+      foorerElement={{
+        onSelectDate,
+        onSelectMonthYear,
+        setShowPicker,
+        onTitleClick,
+      }}
     />
   );
 }
 
-export default DateView;
+export default MonthYearView;

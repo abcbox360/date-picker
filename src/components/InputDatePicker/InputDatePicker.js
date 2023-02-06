@@ -1,18 +1,30 @@
-import DateView from "./DateView";
-import styled from "styled-components";
-
-const Picker = styled.div`
-width: 29rem;
-height: 35rem;
-padding: 1rem;
-border: 0.1rem solid rgba(0, 0, 0, 0.2);
-`
+import Picker from "./Picker";
+import { useState } from "react";
+import FocusManager from "./FocusManager";
+import DateManager from "./DateManager";
+import Input from "./Input";
 
 function InputDatePicker(props) {
+  const [showPicker, setShowPicker] = useState(false);
+  const openPicker = () => {
+    setShowPicker(true);
+  };
+  const closePicker = () => {
+    setShowPicker(false);
+  };
+  function onFocus() {
+    openPicker();
+  }
+  function onBlur() {
+    closePicker();
+  }
   return (
-    <Picker>
-      <DateView />
-    </Picker>
+    <FocusManager onFocus={onFocus} onBlur={onBlur}>
+      <DateManager onChange={props.onChange}>
+        <Input />
+        {showPicker && <Picker setShowPicker={setShowPicker} />}
+      </DateManager>
+    </FocusManager>
   );
 }
 

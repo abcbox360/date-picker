@@ -1,40 +1,29 @@
 import styled from "styled-components";
+import ViewLayoutFooter from "./ViewLayoutFooter";
 
 const ViewLayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
 `;
 const ViewLayoutHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  
+  width: 100%;
 `;
 const ViewLayoutBody = styled.div`
   flex: 1;
+  height: 100%;
+  width: 100%;
 `;
-const ViewLayoutFooter = styled.div`
 
-&:before {
-  content: "";
-  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.2);
-  display: block;
-  margin-bottom: 10px;
-}
-`;
 function ViewLayout(props) {
   const { header, bodyElement, foorerElement } = props;
-  const { leftElement, middleElement, rightElement } = header;
   return (
     <ViewLayoutContainer>
-      <ViewLayoutHeader>
-        <div>{leftElement}</div>
-        <div>{middleElement}</div>
-        <div>{rightElement}</div>
-      </ViewLayoutHeader>
+      <ViewLayoutHeader>{header}</ViewLayoutHeader>
       <ViewLayoutBody>{bodyElement}</ViewLayoutBody>
-      <ViewLayoutFooter>{foorerElement}</ViewLayoutFooter>
+      <ViewLayoutFooter foorerElement={foorerElement}></ViewLayoutFooter>
     </ViewLayoutContainer>
   );
 }

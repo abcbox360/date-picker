@@ -1,7 +1,7 @@
 import { buildWeeks, buildDayNames } from "./generator";
 import getDate from "date-fns/getDate";
 import { useMemo } from "react";
-import Button from "./Button";
+import { Button } from "../Buttons/Button";
 import styled from "styled-components";
 import dateFnsIsToday from "date-fns/isToday";
 import getMonth from "date-fns/getMonth";
@@ -15,30 +15,28 @@ const CalendarTable = styled.table`
 const CalendarHeader = styled.tr`
   &:after {
     content: "";
-    width: 100%;
-    border-bottom: 0.1rem solid #d0d0d0;
+    border-bottom: 0.1rem solid rgba(0, 0, 0);
     position: absolute;
-    top: 2.3rem;
+    top: 25px;
     left: 0;
-  }
-  & th {
-    padding-bottom: 1rem;
+    right: 0;
   }
 `;
 
 const CalendarRow = styled.tr`
-  height: 3.6rem;
   text-align: center;
+  & td {
+    width: 14%;
+    height: 44.4px;
+  }
 `;
 
 function DatePicker(props) {
-  const { calendar, selectedDate } = props;
+  const { calendar, selectedDate, onSelectDate } = props;
   const { year, monthIndex } = calendar;
-  const weeks = useMemo(
-    () => buildWeeks(year, monthIndex - 1),
-    [year, monthIndex]
-  );
+  const weeks = useMemo(() => buildWeeks(year, monthIndex), [year, monthIndex]);
   const dayNames = useMemo(() => buildDayNames(0), []);
+
   return (
     <div>
       <CalendarTable>
@@ -54,7 +52,7 @@ function DatePicker(props) {
             <CalendarRow key={i}>
               {week.map((day, j) => {
                 const isToday = dateFnsIsToday(day);
-                const isCurrentMonth = getMonth(day) === monthIndex - 1;
+                const isCurrentMonth = getMonth(day) === monthIndex;
                 const isSelected = isSameDay(day, selectedDate);
                 return (
                   <td key={j}>
@@ -62,6 +60,7 @@ function DatePicker(props) {
                       isToday={isToday}
                       isCurrentMonth={isCurrentMonth}
                       isSelected={isSelected}
+                      onClick={(e) => onSelectDate(e, day)}
                     >
                       {getDate(day)}
                     </Button>
